@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>練習！文字起こしアプリ</title>
+</head>
+<body>
+  <center>
+    <h2>文字起こしします！</h2>
+    <img src="./images/te5.png" width="15%" height="15%">
+    <p></p>
+    <button id="btn">スタート</button>
+    <div id="content"></div>
+
+<script>
+//ここに音声認識の処理を書いていく
+//音声認識を実行する準備はこの２行　webkitSpeechRecognition()を定義
+//langをja-JPにすることで日本語に対応したWeb Speech APIが使えるように
+const speech = new webkitSpeechRecognition();
+speech.lang = 'ja-JP';
+
+//イベントで実行出来るように　変数を用意
+const btn = document.getElementById('btn');
+const content = document.getElementById('content');
+
+btn.addEventListener('click' , function() {
+    // 音声認識をスタート
+    speech.start();
+});
+
+//speech.addEventListener('result' , function(e) {
+// // 音声認識で取得した情報を、コンソール画面に表示
+//console.log(e);
+//});
+
+//// 音声認識で取得した情報を、HTMLに表示
+//const text = e.results[0][0].transcript;
+//    content.innerText = text;
+//    
+
+//音声自動文字起こし機能
+speech.onresult = function(e) {
+         speech.stop();
+         if(e.results[0].isFinal){
+             var autotext =  e.results[0][0].transcript
+             console.log(e);
+             console.log(autotext);
+             content.innerHTML += '<div>'+ autotext +'</div>';
+          }
+     }
+
+     //SpeechRecognitionのイベントで.onendが認識終了のイベントなので、終了したら、.startをして常に取得する状態にする
+     speech.onend = () => { 
+        speech.start() 
+     };
+
+     //content.innerHTML += '<div>'+ autotext +'</div>'; で処理でテキストをどんどんHTMLに追加していく
+
+
+////open index.html
+
+
+</script>
+</center>
+<body>
+
+<html>
+
